@@ -59,7 +59,7 @@ const UploadForm = () => {
             Number Per Batch:
             <br/>
             <input
-              type="number"
+              type="text"
               value={numberPerBatch}
               onChange={(e) => setNumberPerBatch(e.target.value)}
             />
