@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import Header from '../components/Header';
+
+
 
 const TokenDistribution = () => {
   // State to manage selected distribution
@@ -41,6 +44,7 @@ const TokenDistribution = () => {
   };
 
   return (
+    <div><Header className="fixed-header"/>
     <div>
       <h2>Distribute Tokens</h2>
       <header>
@@ -59,6 +63,7 @@ const TokenDistribution = () => {
         {/* Input fields for amount and unlock date time */}
       </div>
     </div>
+  </div>
   );
 };
 
