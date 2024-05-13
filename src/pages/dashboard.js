@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import './dashboard.css';
+import supabase from "../config/supabaseClient";
 
 function CreateDealForm() {
   const [projectName, setProjectName] = useState('');
@@ -59,21 +60,22 @@ function CreateDealForm() {
   };
 
   const handleLogoUrlChange = (event) => {
-    const value = event.target.value;
+    // const value = event.target.value;
+    setLogoUrl(event.target.value);
     // Check if the entered value is a valid URL
-    if (isValidUrl(value)) {
-      // If it's a valid URL, set it as the logo URL
-      setLogoUrl(value);
-    } else {
-      // If it's not a URL, assume it's a file and handle file upload
-      const file = event.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        // Set the uploaded image as the logo URL
-        setLogoUrl(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
+    // if (isValidUrl(value)) {
+    //   // If it's a valid URL, set it as the logo URL
+    //   setLogoUrl(value);
+    // } else {
+    //   // If it's not a URL, assume it's a file and handle file upload
+    //   const file = event.target.files[0];
+    //   const reader = new FileReader();
+    //   reader.onload = (e) => {
+    //     // Set the uploaded image as the logo URL
+    //     setLogoUrl(e.target.result);
+    //   };
+    //   reader.readAsDataURL(file);
+    // }
   };
 
 
@@ -115,15 +117,15 @@ function CreateDealForm() {
       return false;
     }
   };
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
     // Validation
-    if (!projectName || !description || !price || !vestingSchedule || !discordinviteUrl || !saftSize || !fee || !minAllocation || !logoUrl || chainId) {
+    if (!projectName || !ido || !description || !price || !vestingSchedule || !saftSize || !fee || !minAllocation || !logoUrl || !chainId || !startTime) {
       alert('Please fill in all mandatory fields.');
       return;
     }
     // Handle form submission here
-    console.log('Form submitted:', {
+    const data =  {
       projectName,
       ido,
       description,
@@ -141,8 +143,22 @@ function CreateDealForm() {
       whitepaperUrl,
       discordUrl,
       startTime,
-    });
-    // You can send this data to a backend or perform any other action
+    };
+    console.log('Consoling Data',data)
+    try {
+      const { insert,error } = await supabase.from('createdeals').insert([data]);
+      if (error) {
+        console.log("Error at inserting",error);
+    }
+    console.log("Inserting data", insert);
+ 
+    //alert('Deal created successfully!');
+
+    }catch(error){
+      console.error('Error creating deal:', error.message);
+      //alert('An error occurred while creating the deal. Please try again.');
+    }
+
   };
 
   return (
@@ -218,7 +234,7 @@ function CreateDealForm() {
             value={discordinviteUrl}
             onChange={handleDiscordinviteUrlChange}
             placeholder="Enter Discord invite URL"
-            required
+            
           />
         </label>
         <label className="form-label">
@@ -266,8 +282,9 @@ function CreateDealForm() {
           <div className="custom-dropdown">
             <input
               className="form-input"
-              type="file"
-              accept="image/*"
+              // type="file"
+              // accept="image/*"
+              type="text"
               onChange={handleLogoUrlChange}
               placeholder="Drag and drop image or enter URL"
               required
@@ -357,9 +374,10 @@ function CreateDealForm() {
         </div>
         <div className='form-row'>
         <label className='form-label'>
-          Desired Start Time : &nbsp;
-          <input
-            type="datetime-local"
+        <span className="required">*</span>
+        Desired Start Time : &nbsp;
+          <input 
+            type="datetime-local" 
             value={startTime}
             onChange={handleStartTimeChange}
           />

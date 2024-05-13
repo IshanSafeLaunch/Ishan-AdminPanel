@@ -55,7 +55,6 @@
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import { ethers } from 'ethers';
-console.log(ethers,"Helll");
 
 // const Sidebar = () => {
 //   return (

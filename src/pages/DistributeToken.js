@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Header from '../components/Header';
+import supabase from "../config/supabaseClient";
+import './dt.css';
 
 
 
@@ -8,6 +10,7 @@ const TokenDistribution = () => {
   const [selectedDistribution, setSelectedDistribution] = useState(null);
   // State to manage deposit details
   const [deposits, setDeposits] = useState([]);
+  const [distributorOptions, setDistributorOptions] = useState([]);
 
   // Function to handle distribution selection
   const handleDistributionChange = (event) => {
@@ -16,48 +19,77 @@ const TokenDistribution = () => {
     // You would typically fetch this data from an API endpoint
   };
 
+  useEffect(() => {
+    fetchDistributors();
+  }, []);
+
+  const fetchDistributors = async () => {
+    try {
+      const { data, error } = await supabase.from('deals').select('*');
+      if (error) {
+        throw error;
+      }
+      console.log("Datavase", data);
+      setDistributorOptions(data);
+    } catch (error) {
+      console.error('Error fetching distributor options:', error.message);
+    }
+  };
+
   // Function to handle token removal
-  const removeToken = (depositId) => {
+  const removeToken = () => {
     // Logic to remove token based on deposit ID
   };
 
   // Render deposit details
   const renderDepositDetails = () => {
-    return deposits.map((deposit) => (
-      <div key={deposit.depositId}>
-        <div>
-          {/* Details at the left side */}
-          <div>Fundraise Amount: {deposit.fundraiseAmount}</div>
-          <div>No of Token Withdrawal: {deposit.numTokenWithdrawal}</div>
-          <div>Created By: {deposit.createdBy}</div>
-        </div>
+    const project = distributorOptions.find(project => project.project_name === selectedDistribution);
+
+  if (!project) {
+    return null; // If no selected distributor, return null or any default message
+  }
+    return (
+      <div className='container' key={project.id}>
+        
         {/* Details at the center */}
-        <div style={{ textAlign: 'center' }}>
-          <div>Name: {deposit.name}</div>
-          <div>Distribution ID: {deposit.distributionId}</div>
-          <div>Ethereum Address: {deposit.ethereumAddress}</div>
+        <div className='project-info' style={{ textAlign: 'center' }}>
+          <div><b>{project.project_name}</b></div>
+          <div>Distribution ID: {project.id}</div>
+          <div>Contract Address: <b style={{ color: '#1888d8' }}>{project.contract_address}</b></div>
+        </div>
+        <div className='additional-info'>
+          {/* Details at the left side */}
+          <div>Fundraise Amount: {}</div>
+          <div>No of Token Withdrawal: {}</div>
+          <div>Created By: <b style={{ color: '#1888d8' }}>{project.project_address}</b></div>
         </div>
         {/* Remove token button */}
-        <button onClick={() => removeToken(deposit.depositId)}>Remove Token</button>
+        {/* <button onClick={() => removeToken()}>Remove Token</button> */}
       </div>
-    ));
+    );
   };
 
   return (
     <div><Header className="fixed-header"/>
     <div>
-      <h2>Distribute Tokens</h2>
-      <header>
-        <div>Tokens Name</div>
-        <select value={selectedDistribution} onChange={handleDistributionChange}>
-          {/* Options for distribution dropdown */}
+      <h2 className='header'>Distribute Tokens</h2>
+      <header className='container'>
+        <div>Select Distributor</div>
+        <select className='select' value={selectedDistribution} onChange={handleDistributionChange}>
+        <option value="">Select...</option>
+        {distributorOptions.map((projects) => (
+              <option key={projects.id} value={projects.project_name}>{projects.project_name}</option>
+              
+            ))}
         </select>
       </header>
-      <div>
-        {/* Display deposit details */}
+      {selectedDistribution && (
+        <div>
+         {/* <h4>Selected Distributor: {selectedDistribution}</h4> */}
         {renderDepositDetails()}
+       
       </div>
-      {/* New div for deposit details */}
+      )}
       <div>
         <h3>Deposit Details</h3>
         {/* Input fields for amount and unlock date time */}
