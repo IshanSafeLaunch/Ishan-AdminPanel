@@ -2,7 +2,8 @@ import './App.css';
 ///import Headers from './components/Header';
 import UploadForm from './pages/uploadform';
 import CreateDealForm from './pages/dashboard';
-import TokenDistribution from './pages/DistributeToken';
+//import TokenDistribution from './pages/DistributeToken';
+import DepositTokens from './pages/DepositTokens';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
@@ -16,7 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<UploadForm/>}/>
           <Route path="/dashboard" element={<CreateDealForm/>}/>
-          <Route path="/distribution-token" element={<TokenDistribution/>}/>
+          <Route path="/distribution-token" element={<DepositTokens/>}/>
         </Routes>
       </Router>
       
