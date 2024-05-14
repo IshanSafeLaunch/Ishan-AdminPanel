@@ -11,13 +11,13 @@ const DepositTableCard = ({data}) => {
 
         {/* form to deposit  */}
 
-        <form className='flex flex-col gap-4 mt-6'>
+        <form className='flex flex-col gap-4 mt-6' >
             <div className='flex flex-col sm:flex-row gap-4 sm:gap-8'>
             <TextInput label={'Amount'} name="amount" type={'text'} />
             <TextInput label={'Unlock Date & Time'} name="unlockdandt" type={'datetime-local'} />
             </div>
             <p>Date and times should be specified in your local timezone.</p>
-            <button type='submit' disabled={false} className='w-full bg-neutral-200 text-neutral-400 cursor-pointer font-semibold p-2 rounded-md'>Deposit</button>
+            <button style={{ border: '1px solid #000000' }} type='submit' disabled={false} className='w-full bg-neutral-200 text-neutral-400 cursor-pointer font-semibold p-2 rounded-md'>Deposit</button>
         </form>
     </div>
   )

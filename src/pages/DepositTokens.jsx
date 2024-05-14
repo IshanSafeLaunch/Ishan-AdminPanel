@@ -8,7 +8,7 @@ import supabase from "../config/supabaseClient";
 const DepositTokens = () => {
     const [selectedDistribution, setSelectedDistribution] = useState(null);
     const [distributorOptions, setDistributorOptions] = useState([]);
-    const [cardData, setCardData] = useState(null)
+    const [cardData, setCardData] = useState([])
 
     const handleDistributionChange = (event) => {
         //setSelectedDistribution(event.target.value);
@@ -98,14 +98,14 @@ const DepositTokens = () => {
         <div className='pb-3'>
             {/* <SelectInput label={'Select Distribution'} value ={selectedDistribution} /> */}
             <div>Select Distributor</div>
-            <select className='select' value={selectedDistribution} onChange={handleDistributionChange}>
+            <select className='select' style={{ border: '2px solid #000000;', width: '40%'}} value={selectedDistribution} onChange={handleDistributionChange}>
             <option value="">Select...</option>
             {distributorOptions.map((projects) => (
                 <option key={projects.id} value={projects.project_name}>{projects.project_name}</option>
                 
                 ))}
             </select>
-      
+            
         </div>
         <DistributionCard data={cardData}/>
         <DepositTableCard data={depositData}/>

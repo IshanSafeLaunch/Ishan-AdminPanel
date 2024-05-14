@@ -25,7 +25,7 @@ const UploadForm = () => {
 
       <div style={{ display: 'inline-block' }}>
         <h2>Paste Contributors</h2>
-        <textarea
+        <textarea style={{ border: '1px solid #000000' }}
           value={contributors}
           onChange={(e) => setContributors(e.target.value)}
           placeholder="Enter contributors' addresses separated by commas"
@@ -39,7 +39,7 @@ const UploadForm = () => {
           <label style={{ marginRight: '10px' }}>
             Distribution Name:
             <br/>
-            <input
+            <input style={{ border: '1px solid #000000' }}
               type="text"
               value={distributionName}
               onChange={(e) => setDistributionName(e.target.value)}
@@ -50,7 +50,7 @@ const UploadForm = () => {
           <label style={{ marginRight: '10px' }}>
             Distribution Token Address:
             <br/>
-            <input
+            <input style={{ border: '1px solid #000000' }}
               type="text"
               value={distributionTokenAddress}
               onChange={(e) => setDistributionTokenAddress(e.target.value)}
@@ -61,7 +61,7 @@ const UploadForm = () => {
           <label style={{ marginRight: '10px' }}>
             Number Per Batch:
             <br/>
-            <input
+            <input style={{ border: '1px solid #000000' }}
               type="text"
               value={numberPerBatch}
               onChange={(e) => setNumberPerBatch(e.target.value)}
