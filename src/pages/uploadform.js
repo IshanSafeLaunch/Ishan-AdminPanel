@@ -1,79 +1,71 @@
-
-
 import React, { useState } from 'react';
-import Header from '../components/Header';
+import Web3 from 'web3';
+const TokenDistributorContract =
+// import abi from '../abi';
+// Replace 'YourContractAddress' with your actual contract address
+const contractAddress = '0xD7F8C11Fa9B3C7305A1d55cC60e8A7E985b1b9E6';
 
-const UploadForm = () => {
-  const [contributors, setContributors] = useState('');
-  const [distributionName, setDistributionName] = useState('');
-  const [distributionTokenAddress, setDistributionTokenAddress] = useState('');
-  const [numberPerBatch, setNumberPerBatch] = useState('');
+function UploadForm() {
+  const [name, setName] = useState('');
+  const [distributionToken, setDistributionToken] = useState('');
+  const [contributors, setContributors] = useState([]);
+  const [amounts, setAmounts] = useState([]);
 
-  const handleUpload = () => {
-    // Logic to upload the data to the contract
-    console.log('Uploading data to contract...');
-    console.log('Paste Contributors:', contributors);
-    console.log('Distribution Name:', distributionName);
-    console.log('Distribution Token Address:', distributionTokenAddress);
-    console.log('Number Per Batch:', numberPerBatch);
-    // You can call contract methods or perform other actions here
+  const handleCreate = async () => {
+    const web3 = new Web3(Web3.givenProvider);
+    const contract = new web3.eth.Contract(TokenDistributorContract, contractAddress);
+
+    try {
+      await contract.methods.create(name, distributionToken, contributors, amounts).send({ from: "eth_requestAccounts" });
+      alert('Distribution created successfully!');
+    } catch (error) {
+      console.error(error);
+      alert('Failed to create distribution.');
+    }
+  };
+
+  const handleAddContributor = () => {
+    // Add contributor address and amount to arrays
+    setContributors([...contributors, '']);
+    setAmounts([...amounts, 0]);
+  };
+
+  const handleContributorChange = (index, event) => {
+    const updatedContributors = [...contributors];
+    updatedContributors[index] = event.target.value;
+    setContributors(updatedContributors);
+  };
+
+  const handleAmountChange = (index, event) => {
+    const updatedAmounts = [...amounts];
+    updatedAmounts[index] = event.target.value;
+    setAmounts(updatedAmounts);
   };
 
   return (
     <div>
-      <Header />
-
-      <div style={{ display: 'inline-block' }}>
-        <h2>Paste Contributors</h2>
-        <textarea style={{ border: '1px solid #000000' }}
-          value={contributors}
-          onChange={(e) => setContributors(e.target.value)}
-          placeholder="Enter contributors' addresses separated by commas"
-          rows={8}
-          cols={50}
-        />
-      </div>
-      <div style={{ display: 'inline-block', marginLeft: '50px' }}>
-        <h2>Distribution Details</h2>
-        <div>
-          <label style={{ marginRight: '10px' }}>
-            Distribution Name:
-            <br/>
-            <input style={{ border: '1px solid #000000' }}
-              type="text"
-              value={distributionName}
-              onChange={(e) => setDistributionName(e.target.value)}
-            />
-          </label>
+      <label>Name:</label>
+      <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+      <br />
+      <label>Distribution Token:</label>
+      <input type="text" value={distributionToken} onChange={(e) => setDistributionToken(e.target.value)} />
+      <br />
+      <button onClick={handleAddContributor}>Add Contributor</button>
+      <br />
+      {contributors.map((contributor, index) => (
+        <div key={index}>
+          <label>Contributor Address:</label>
+          <input type="text" value={contributors[index]} onChange={(e) => handleContributorChange(index, e)} />
+          <br />
+          <label>Amount:</label>
+          <input type="number" value={amounts[index]} onChange={(e) => handleAmountChange(index, e)} />
+          <br />
         </div>
-        <div>
-          <label style={{ marginRight: '10px' }}>
-            Distribution Token Address:
-            <br/>
-            <input style={{ border: '1px solid #000000' }}
-              type="text"
-              value={distributionTokenAddress}
-              onChange={(e) => setDistributionTokenAddress(e.target.value)}
-            />
-          </label>
-        </div>
-        <div>
-          <label style={{ marginRight: '10px' }}>
-            Number Per Batch:
-            <br/>
-            <input style={{ border: '1px solid #000000' }}
-              type="text"
-              value={numberPerBatch}
-              onChange={(e) => setNumberPerBatch(e.target.value)}
-            />
-          </label>
-        </div>
-      </div>
-      <div>
-      <button style={{ backgroundColor: 'lightblue', marginTop: '20px', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }} onClick={handleUpload}>Create</button>
-      </div>
+      ))}
+      <button onClick={handleCreate}>Create Distribution</button>
     </div>
   );
-};
+}
 
 export default UploadForm;
+
