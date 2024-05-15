@@ -1,6 +1,6 @@
 import './App.css';
-///import Headers from './components/Header';
-import UploadForm from './pages/uploadform';
+import Headers from './components/Header';
+import UploadForm from './components/Uploadform';
 import CreateDealForm from './pages/dashboard';
 //import TokenDistribution from './pages/DistributeToken';
 import DepositTokens from './pages/DepositTokens';
@@ -15,7 +15,7 @@ function App() {
       {/* <Headers/> */}
       <Router>
         <Routes>
-          <Route path="/" element={<UploadForm/>}/>
+          <Route path="/" element={<Headers/>}/>
           <Route path="/dashboard" element={<CreateDealForm/>}/>
           <Route path="/distribution-token" element={<DepositTokens/>}/>
         </Routes>
