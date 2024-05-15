@@ -8,7 +8,7 @@ import supabase from "../config/supabaseClient";
 const DepositTokens = () => {
     const [selectedDistribution, setSelectedDistribution] = useState(null);
     const [distributorOptions, setDistributorOptions] = useState([]);
-    const [cardData, setCardData] = useState([])
+    const [cardData, setCardData] = useState(['Please select the drop down']);
 
     const handleDistributionChange = (event) => {
         //setSelectedDistribution(event.target.value);
@@ -50,16 +50,6 @@ const DepositTokens = () => {
       };
     
 
-    // const cardData={
-    //     title:'R Games',
-    //     distributionId:'64',
-    //     id:'0xcbd9f6d748Dd3d9uiuiub78657ftre5',
-    //     fundraiseAmount:'44443',
-    //     NumTokensWithdrawn:'655097.71428',
-    //     createdBy:'0xcbd9f6d748Dd3d9uiuiub78657ftre5',
-    //     totalContributors:89
-    // }
-
     const depositData={
         total:666666,
         tableData:[
@@ -98,7 +88,7 @@ const DepositTokens = () => {
         <div className='pb-3'>
             {/* <SelectInput label={'Select Distribution'} value ={selectedDistribution} /> */}
             <div>Select Distributor</div>
-            <select className='select' style={{ border: '2px solid #000000;', width: '40%'}} value={selectedDistribution} onChange={handleDistributionChange}>
+            <select className='select border border-gray-500 w-80' value={selectedDistribution} onChange={handleDistributionChange}>
             <option value="">Select...</option>
             {distributorOptions.map((projects) => (
                 <option key={projects.id} value={projects.project_name}>{projects.project_name}</option>

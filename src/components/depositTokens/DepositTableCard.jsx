@@ -17,7 +17,7 @@ const DepositTableCard = ({data}) => {
             <TextInput label={'Unlock Date & Time'} name="unlockdandt" type={'datetime-local'} />
             </div>
             <p>Date and times should be specified in your local timezone.</p>
-            <button style={{ border: '1px solid #000000' }} type='submit' disabled={false} className='w-full bg-neutral-200 text-neutral-400 cursor-pointer font-semibold p-2 rounded-md'>Deposit</button>
+            <button type='submit' disabled={false} className='mx-auto bg-neutral-200 text-neutral-400 cursor-pointer font-semibold p-2 rounded-md mb-16'>Deposit</button>
         </form>
     </div>
   )
